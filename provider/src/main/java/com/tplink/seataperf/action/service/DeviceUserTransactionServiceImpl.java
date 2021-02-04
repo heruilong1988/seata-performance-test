@@ -26,10 +26,10 @@ public class DeviceUserTransactionServiceImpl implements DeviceUserTransactionSe
      * 需要捕捉全局事务的异常，避免没有回复。
      */
     @Override
-    public boolean addDeviceUser() {
+    public boolean addDeviceUser(long reqId, boolean needRollback, String businessMode) {
         logger.info("begin.addDeviceUser");
         try {
-            return distributedService.addDeviceUserInternal();
+            return distributedService.addDeviceUserInternal(reqId, needRollback, businessMode);
         } catch (Exception e) {
             return false;
         }

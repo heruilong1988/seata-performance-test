@@ -17,7 +17,7 @@ public class MyService {
     DeviceUserTransactionService deviceUserTransactionService;
 
     public void doBusiness() {
-        boolean result = deviceUserTransactionService.addDeviceUser();
+        boolean result = deviceUserTransactionService.addDeviceUser(0, true);
         System.out.println("result: " + result);
     }
 }

@@ -20,6 +20,7 @@
         <module>provider</module>
         <module>consumer</module>
         <module>jmeter-client</module>
+        <module>common</module>
     </modules>
 
 

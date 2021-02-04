@@ -7,5 +7,5 @@
 package com.tplink.seataperf.action.service;
 
 public interface DeviceUserTransactionService {
-    boolean addDeviceUser();
+    boolean addDeviceUser(long reqId, boolean needRollback, String businessMode);
 }

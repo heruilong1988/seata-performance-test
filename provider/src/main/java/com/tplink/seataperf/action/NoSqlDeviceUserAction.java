@@ -1,6 +1,7 @@
 package com.tplink.seataperf.action;
 
 import io.seata.rm.tcc.api.BusinessActionContext;
+import io.seata.rm.tcc.api.BusinessActionContextParameter;
 import io.seata.rm.tcc.api.LocalTCC;
 import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 
@@ -14,7 +15,8 @@ public interface NoSqlDeviceUserAction {
      * @return the boolean
      */
     @TwoPhaseBusinessAction(name = "prepareAddNoSqlDeviceUser" , commitMethod = "commit", rollbackMethod = "rollback")
-    public boolean prepareAddDeviceUser(BusinessActionContext actionContext);
+    public boolean prepareAddDeviceUser(BusinessActionContext actionContext,@BusinessActionContextParameter(paramName = "reqId") long reqId,
+        @BusinessActionContextParameter(paramName = "needRollback") boolean needRollback);
     /**
      * Commit boolean.
      *
