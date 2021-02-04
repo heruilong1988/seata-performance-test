@@ -41,8 +41,13 @@ public class SqlDeviceUserActionImpl implements SqlDeviceUserAction {
 
     @Override
     public boolean commit(BusinessActionContext actionContext) {
-        if(!"normal".equals(actionContext.getActionContext("mode")){
-
+        if(!"normal".equals(actionContext.getActionContext("mode"))){
+            //模拟更新事务控制记录状态
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         //do nothing
         return true;
@@ -52,6 +57,16 @@ public class SqlDeviceUserActionImpl implements SqlDeviceUserAction {
     public boolean rollback(BusinessActionContext actionContext) {
         String reqId = actionContext.getActionContext("reqId").toString();
         rollbackLogger.warn("rollback.reqId:{}", reqId);
+
+        if(!"normal".equals(actionContext.getActionContext("mode"))){
+            //模拟更新事务控制记录状态
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {

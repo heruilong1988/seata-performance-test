@@ -16,7 +16,7 @@ public interface NoSqlDeviceUserAction {
      */
     @TwoPhaseBusinessAction(name = "prepareAddNoSqlDeviceUser" , commitMethod = "commit", rollbackMethod = "rollback")
     public boolean prepareAddDeviceUser(BusinessActionContext actionContext,@BusinessActionContextParameter(paramName = "reqId") long reqId,
-        @BusinessActionContextParameter(paramName = "needRollback") boolean needRollback);
+        @BusinessActionContextParameter(paramName = "needRollback") boolean needRollback,@BusinessActionContextParameter(paramName = "mode") String mode);
     /**
      * Commit boolean.
      *
