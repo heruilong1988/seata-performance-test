@@ -41,8 +41,14 @@ public class SqlDeviceUserActionImpl implements SqlDeviceUserAction {
 
     @Override
     public boolean commit(BusinessActionContext actionContext) {
-        if(!"normal".equals(actionContext.getActionContext("mode")){
-
+        if(!"normal".equals(actionContext.getActionContext("mode"))){
+            //把任务状态标记为完成
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                rollbackLogger.error("rollback failed to sleep.", e);
+                return false;
+            }
         }
         //do nothing
         return true;
@@ -52,6 +58,18 @@ public class SqlDeviceUserActionImpl implements SqlDeviceUserAction {
     public boolean rollback(BusinessActionContext actionContext) {
         String reqId = actionContext.getActionContext("reqId").toString();
         rollbackLogger.warn("rollback.reqId:{}", reqId);
+
+
+        if(!"normal".equals(actionContext.getActionContext("mode"))){
+            //把任务状态标记为rollback
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                rollbackLogger.error("rollback failed to sleep.", e);
+                return false;
+            }
+        }
+
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
