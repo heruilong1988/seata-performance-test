@@ -11,6 +11,8 @@ dubbo:
     id: dubbo-business-example
     name: dubbo-business-example
     qosEnable: false
+  provider:
+    host: 192.168.2.135
   protocol:
     id: dubbo
     name: dubbo

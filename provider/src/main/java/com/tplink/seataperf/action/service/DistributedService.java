@@ -20,7 +20,7 @@ public class DistributedService {
 
 
     public DistributedService(SqlDeviceUserAction sqlDeviceUserAction,
-        NoSqlDeviceUserAction noSqlDeviceUserAction) {
+                              NoSqlDeviceUserAction noSqlDeviceUserAction) {
         this.sqlDeviceUserAction = sqlDeviceUserAction;
         this.noSqlDeviceUserAction = noSqlDeviceUserAction;
     }
@@ -28,20 +28,16 @@ public class DistributedService {
     @GlobalTransactional
     public boolean addDeviceUserInternal(long reqId, boolean needRollback, String businessMode) {
 
-        if(businessMode.equals("normal")) {
-
-            boolean result1 = sqlDeviceUserAction.prepareAddDeviceUser(null, reqId, false);
-            if (!result1) {
-                throw new RuntimeException("sql failed");
-            }
-
-            boolean result2 = noSqlDeviceUserAction.prepareAddDeviceUser(null, reqId, needRollback);
-            if (!result2) {
-                throw new RuntimeException("nosql failed");
-            }
-            return true;
-        }else {
-            //anti dangling try
+        boolean result1 = sqlDeviceUserAction.prepareAddDeviceUser(null, reqId, false, businessMode);
+        if (!result1) {
+            throw new RuntimeException("sql failed");
         }
+
+        boolean result2 = noSqlDeviceUserAction.prepareAddDeviceUser(null, reqId, needRollback, businessMode);
+        if (!result2) {
+            throw new RuntimeException("nosql failed");
+        }
+
+        return true;
     }
 }

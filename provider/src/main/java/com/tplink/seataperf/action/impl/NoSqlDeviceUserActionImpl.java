@@ -16,12 +16,14 @@ public class NoSqlDeviceUserActionImpl implements NoSqlDeviceUserAction {
     @Override
     public boolean prepareAddDeviceUser(BusinessActionContext actionContext,long reqId, boolean needRollback, String mode) {
 
-        if(!mode.equals("normal")) {
+        if(!"normal".equals(mode)) {
             //模拟插入事务控制记录
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                logger.error("prepare failed to sleep.",e);
+                return false;
             }
         }
 
@@ -50,7 +52,6 @@ public class NoSqlDeviceUserActionImpl implements NoSqlDeviceUserAction {
                 return false;
             }
         }
-        //do nothing
         return true;
     }
 
