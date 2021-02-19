@@ -60,9 +60,9 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
-                    <descriptorRefs>
+                    <!--<descriptorRefs>
                         <descriptorRef>jar</descriptorRef>
-                    </descriptorRefs>
+                    </descriptorRefs>-->
                     <archive>
                         <manifest>
                             <!-- 此处指定main方法入口的class -->

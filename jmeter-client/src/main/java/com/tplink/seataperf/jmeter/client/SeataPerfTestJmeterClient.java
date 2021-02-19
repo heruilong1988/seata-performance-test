@@ -33,7 +33,8 @@ public class SeataPerfTestJmeterClient extends AbstractJavaSamplerClient {
 
     public static void main(String[] args) {
         SeataPerfTestJmeterClient client = new SeataPerfTestJmeterClient();
-        client.setupTest(null);
+        JavaSamplerContext context = new JavaSamplerContext(client.getDefaultParameters());
+        client.setupTest(context);
         SampleResult sr = client.runTest(null);
         System.out.println(sr.isSuccessful());
     }
@@ -41,9 +42,9 @@ public class SeataPerfTestJmeterClient extends AbstractJavaSamplerClient {
     @Override
     public Arguments getDefaultParameters() {
         Arguments arguments = new Arguments();
-        arguments.addArgument("mode","normal"); //high
-        arguments.addArgument("rollbackRate", "10000");
-        return super.getDefaultParameters();
+        arguments.addArgument("mode","normal"); //high，放悬挂
+        arguments.addArgument("rollbackRate", "10000"); //万分之一的回滚率
+        return arguments;
     }
 
     @Override

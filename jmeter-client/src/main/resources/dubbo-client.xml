@@ -41,7 +41,7 @@
 
     <!-- 第一个TCC参与者 服务订阅 -->
     <dubbo:reference id="deviceUserTx" interface="com.tplink.seataperf.action.service.DeviceUserTransactionService" check="true"
-                     lazy="false" version="1.0.0"/>
+                     lazy="false" version="1.0.0" timeout="5000"/>
 
 
 </beans>
