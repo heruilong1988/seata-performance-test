@@ -56,16 +56,16 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+           <!-- <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
-                    <!--<descriptorRefs>
-                        <descriptorRef>jar</descriptorRef>
-                    </descriptorRefs>-->
+                   &lt;!&ndash; <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>&ndash;&gt;
                     <archive>
                         <manifest>
-                            <!-- 此处指定main方法入口的class -->
+                            &lt;!&ndash; 此处指定main方法入口的class &ndash;&gt;
                             <mainClass>com.tplink.seataperf.jmeter.client.SeataPerfTestJmeterClient</mainClass>
                         </manifest>
                     </archive>
@@ -77,6 +77,30 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/lib
+                            </outputDirectory>
+                            <includeScope>
+                                compile
+                            </includeScope>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

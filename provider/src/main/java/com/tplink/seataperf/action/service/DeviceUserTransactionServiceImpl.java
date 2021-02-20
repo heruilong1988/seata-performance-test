@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class DeviceUserTransactionServiceImpl implements DeviceUserTransactionService {
 
     Logger logger = LoggerFactory.getLogger(DeviceUserTransactionServiceImpl.class);
+    Logger rollbackLogger = LoggerFactory.getLogger("rollback");
 
     DistributedService distributedService;
 
@@ -27,8 +28,11 @@ public class DeviceUserTransactionServiceImpl implements DeviceUserTransactionSe
      */
     @Override
     public boolean addDeviceUser(long reqId, boolean needRollback, String businessMode) {
-        logger.info("begin.addDeviceUser");
+        logger.debug("begin.addDeviceUser");
         try {
+            if(needRollback) {
+                rollbackLogger.warn("manually rollback.reqId:{}",reqId);
+            }
             return distributedService.addDeviceUserInternal(reqId, needRollback, businessMode);
         } catch (Exception e) {
             return false;

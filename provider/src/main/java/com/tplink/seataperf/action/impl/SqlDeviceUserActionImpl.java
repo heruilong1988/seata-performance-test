@@ -58,7 +58,7 @@ public class SqlDeviceUserActionImpl implements SqlDeviceUserAction {
     @Override
     public boolean rollback(BusinessActionContext actionContext) {
         String reqId = actionContext.getActionContext("reqId").toString();
-        rollbackLogger.warn("rollback.reqId:{}", reqId);
+        rollbackLogger.warn("sql-rollback.reqId:{}", reqId);
 
         if(!"normal".equals(actionContext.getActionContext("mode"))){
             //把任务状态标记为rollback

@@ -58,7 +58,7 @@ public class NoSqlDeviceUserActionImpl implements NoSqlDeviceUserAction {
     @Override
     public boolean rollback(BusinessActionContext actionContext) {
         String reqId = actionContext.getActionContext("reqId").toString();
-        rollbackLogger.warn("rollback.reqId:{}",reqId);
+        rollbackLogger.warn("nosql-rollback.reqId:{}",reqId);
 
         if(!"normal".equals(actionContext.getActionContext("mode"))){
             //把任务状态标记为rollback

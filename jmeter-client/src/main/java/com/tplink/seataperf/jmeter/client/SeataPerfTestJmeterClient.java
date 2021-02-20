@@ -67,7 +67,7 @@ public class SeataPerfTestJmeterClient extends AbstractJavaSamplerClient {
         ThreadLocalRandom t= ThreadLocalRandom.current();
         if(t.nextInt(rollbackRate) == 1) {
             rollback = true;
-            rollbackLogger.warn("rollback.reqId:{}",reqId);
+            rollbackLogger.warn("mannually rollback.reqId:{}",reqId);
         }
 
         sr.sampleStart();
