@@ -17,7 +17,7 @@ JOLOKIA_FILE=${PRO_LIB_DIR}/jolokia-jvm-1.3.1-agent.jar
 JOLOKIA_OPTS="host=0.0.0.0,port=8778"
 
 JAVA_OPTS="-server -Xms2048m -Xmx2048m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=128m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./logs/ -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
-SPRING_APPLICATION_OPTS="-Dspring.config.name=sys"
+SPRING_APPLICATION_OPTS="-Dspring.config.name=application"
 
 unset OPTIND
 while getopts "t" opt;

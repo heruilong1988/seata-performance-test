@@ -10,6 +10,7 @@ import com.tplink.seataperf.action.service.DeviceUserTransactionService;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+import javax.annotation.Resource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -19,9 +20,15 @@ public class ProviderApplicationStarter {
 
     public static void main(String[] args) throws Exception {
 
-        loadConfigFiles();
+       // loadConfigFiles();
 
+        ClassLoader cl = new ProviderApplicationStarter().getClass().getClassLoader();
 
+        System.out.println("cl:"+ cl);
+
+        String s = new ProviderApplicationStarter().getClass().getClassLoader().getResource("").getPath();
+
+        System.out.println("s==============" + s);
         ApplicationContext ctx = SpringApplication.run(ProviderApplicationStarter.class, args);
 
         //DeviceUserTransactionService deviceUserTransactionService = ctx.getBean(DeviceUserTransactionService.class);
