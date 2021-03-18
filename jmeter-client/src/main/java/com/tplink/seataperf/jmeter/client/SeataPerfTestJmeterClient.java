@@ -1,10 +1,9 @@
-/*
+package com.tplink.seataperf.jmeter.client;/*
  * Copyright (c) 2021, TP-Link Co.,Ltd.
  * Author: heruilong <heruilong@tp-link.com.cn>
  * Created: 2021/2/1
  */
 
-package com.tplink.seataperf.jmeter.client;
 
 import com.tplink.seataperf.action.service.DeviceUserTransactionService;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,9 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
-public class SeataPerfTestJmeterClient extends AbstractJavaSamplerClient {
+public class SeataPerfTestJmeterClient2 extends AbstractJavaSamplerClient {
 
-    Logger logger = LoggerFactory.getLogger(SeataPerfTestJmeterClient.class);
+    Logger logger = LoggerFactory.getLogger(SeataPerfTestJmeterClient2.class);
     Logger rollbackLogger = LoggerFactory.getLogger("rollback");
 
     static AtomicLong id = new AtomicLong();
@@ -30,13 +29,20 @@ public class SeataPerfTestJmeterClient extends AbstractJavaSamplerClient {
 
     private String mode;
     private int rollbackRate;
+    private String zkAddress;
+
+    public static void main2(String[] args) {
+        System.out.println("a");
+    }
 
     public static void main(String[] args) {
-        SeataPerfTestJmeterClient client = new SeataPerfTestJmeterClient();
+        SeataPerfTestJmeterClient2 client = new SeataPerfTestJmeterClient2();
         JavaSamplerContext context = new JavaSamplerContext(client.getDefaultParameters());
         client.setupTest(context);
         SampleResult sr = client.runTest(null);
         System.out.println(sr.isSuccessful());
+
+        System.out.println("The seata-performance-test-jmeter-client service started");
     }
 
     @Override
@@ -44,16 +50,21 @@ public class SeataPerfTestJmeterClient extends AbstractJavaSamplerClient {
         Arguments arguments = new Arguments();
         arguments.addArgument("mode","normal"); //high，放悬挂
         arguments.addArgument("rollbackRate", "10000"); //万分之一的回滚率
+        arguments.addArgument("zkAddress","zookeeper://172.29.153.22:2181?client=curator");
         return arguments;
     }
 
     @Override
     public void setupTest(JavaSamplerContext context) {
         super.setupTest(context);
-        DubboInit.initApplicationContext();
-        deviceUserTransactionService = (DeviceUserTransactionService) DubboInit.getInstance().getBean("deviceUserTx");
+        //DubboInit.initApplicationContext();
         this.mode = context.getParameter("mode");
         this.rollbackRate = Integer.parseInt(context.getParameter("rollbackRate"));
+        this.zkAddress = context.getParameter("zkAddress");
+        deviceUserTransactionService = (DeviceUserTransactionService) DubboInit.getInstance().getService(zkAddress);
+        System.out.println("rollbackRate:" + rollbackRate);
+        System.out.println("zkAddress:" + zkAddress);
+        System.out.println("mode:" + mode);
     }
 
     @Override
@@ -71,9 +82,16 @@ public class SeataPerfTestJmeterClient extends AbstractJavaSamplerClient {
         }
 
         sr.sampleStart();
-        boolean r = deviceUserTransactionService.addDeviceUser(reqId,rollback,this.mode);
-        sr.setSuccessful(r);
-        sr.sampleEnd();
+        try {
+            boolean r = deviceUserTransactionService.addDeviceUser(reqId, rollback, this.mode);
+            sr.setSuccessful(r);
+            sr.sampleEnd();
+        }catch (Exception e) {
+            logger.error("error.", e);
+            sr.setSuccessful(false);
+            sr.sampleEnd();
+        }
+
         return sr;
     }
 }
